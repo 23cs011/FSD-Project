@@ -11,7 +11,8 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect("mongodb://localhost:27017/online_medicine_db");
+mongoose.connect("mongodb://localhost:27017/online_medicine_db")
+    .then(() => console.log("Database connected"));
 
 // Models
 const userSchema = new mongoose.Schema({
@@ -91,7 +92,7 @@ const auth = async (req, res, next) => {
 
 const adminAuth = async (req, res, next) => {
     try {
-        await auth(req, res, () => { });
+        await auth(req, res, () => {});
         if (req.user.role !== "admin") {
             return res.status(403).send({ error: "Admin access required" });
         }
@@ -253,8 +254,9 @@ app.post("/api/orders", auth, async (req, res) => {
             const medicine = await Medicine.findById(item.medicine);
             if (!medicine || medicine.stock < item.quantity) {
                 return res.status(400).send({
-                    error: `Insufficient stock for ${medicine?.name || "medicine"
-                        }`,
+                    error: `Insufficient stock for ${
+                        medicine?.name || "medicine"
+                    }`,
                 });
             }
 
