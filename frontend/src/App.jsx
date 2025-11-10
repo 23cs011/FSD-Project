@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 
 // API Configuration
-const API_URL = "http://localhost:3000/api";
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.baseURL = API_URL;
 
 // Utility function for debouncing

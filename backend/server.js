@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+require("dotenv").config();
 const app = express();
 
 // Middleware
@@ -11,7 +11,9 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect("mongodb://localhost:27017/online_medicine_db")
+mongoose.connect(process.env.MONGODB_URL, {
+    dbName: "online_medicine_db"
+})
     .then(() => console.log("Database connected"));
 
 // Models
